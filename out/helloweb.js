@@ -7,9 +7,19 @@ var Lot = /** @class */ (function () {
 }());
 var App = /** @class */ (function () {
     function App() {
-        this.pokazZapisaneLoty();
+        this.pokazMessage();
         this.podlaczPrzyciski();
+        this.pokazZapisaneLoty();
     }
+    // tekst pod formularzem (przy zmianie wybranego inputu bądź selecta)
+    App.prototype.pokazMessage = function () {
+        var message = "<h4>Rezerwacja lotu</h4> dla osoby " + lot.wybraneImiona.nazwa + " <br> dnia " + lot.wybranaData.nazwa + " <br> do miasta " + lot.wybraneMiasto.nazwa;
+        if (lot.wybranyBagaz.nazwa === "true") {
+            message += '<br> z bagażem';
+        }
+        document.querySelector('#pokaz').innerHTML = message;
+    };
+    ;
     // dodanie addEventListenera do poszczególnych elementów
     App.prototype.zaladujZmiany = function () {
         lot.wybraneImiona.metoda.call(lot.wybraneImiona.wybranyEl);
@@ -80,25 +90,29 @@ var lot = {
     }
 };
 var app = new App();
-// przypisanie metod, reagujących na zmiane w wybranych elementach
+// przypisanie metod, reagujących na zmiane w wybranych elementach i pokazywanie efektów na stronie
 lot.wybraneImiona.metoda = function () {
     this.addEventListener('change', function () {
         lot.wybraneImiona.nazwa = document.querySelector("#imiona").value;
+        app.pokazMessage();
     });
 };
 lot.wybranaData.metoda = function () {
     this.addEventListener('change', function () {
         lot.wybranaData.nazwa = document.querySelector("#data").value;
+        app.pokazMessage();
     });
 };
 lot.wybraneMiasto.metoda = function () {
     this.addEventListener('change', function () {
         lot.wybraneMiasto.nazwa = document.querySelector("#miasto").options[document.querySelector("#miasto").selectedIndex].innerHTML;
+        app.pokazMessage();
     });
 };
 lot.wybranyBagaz.metoda = function () {
     this.addEventListener('change', function () {
         lot.wybranyBagaz.nazwa = document.querySelector("#bagaz").checked.toString();
+        app.pokazMessage();
     });
 };
 // wywołanie powyższych metod

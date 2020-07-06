@@ -19,11 +19,21 @@ class Lot {
     wybranyBagaz: ZmienneFormularza;
 }
 
-class App implements LotStorage {
+class App implements LotStorage{
     constructor() {
-        this.pokazZapisaneLoty();
+        this.pokazMessage();
         this.podlaczPrzyciski();
+        this.pokazZapisaneLoty();
     }
+    
+    // tekst pod formularzem (przy zmianie wybranego inputu bądź selecta)
+    pokazMessage(){
+        let message: string =  `<h4>Rezerwacja lotu</h4> dla osoby ${lot.wybraneImiona.nazwa} <br> dnia ${lot.wybranaData.nazwa} <br> do miasta ${lot.wybraneMiasto.nazwa}`;
+        if(lot.wybranyBagaz.nazwa === "true") {
+            message += '<br> z bagażem';
+        }
+        document.querySelector('#pokaz').innerHTML = message;
+    };
 
     // dodanie addEventListenera do poszczególnych elementów
     zaladujZmiany(){
@@ -32,7 +42,7 @@ class App implements LotStorage {
         lot.wybraneMiasto.metoda.call(lot.wybraneMiasto.wybranyEl);
         lot.wybranyBagaz.metoda.call(lot.wybranyBagaz.wybranyEl);
     }
-
+    
     // podłączenie działania przycisków
     podlaczPrzyciski() {
         document.querySelector('#potwierdz').addEventListener('click', this.zapiszLot);
@@ -103,25 +113,29 @@ let lot: Lot = {
 
 let app = new App();
 
-// przypisanie metod, reagujących na zmiane w wybranych elementach
+// przypisanie metod, reagujących na zmiane w wybranych elementach i pokazywanie efektów na stronie
 lot.wybraneImiona.metoda = function(){
     this.addEventListener('change', function() {
         lot.wybraneImiona.nazwa = document.querySelector<HTMLInputElement>("#imiona").value;
+        app.pokazMessage();
     })
 }
 lot.wybranaData.metoda = function() {
     this.addEventListener('change', function() {
         lot.wybranaData.nazwa = document.querySelector<HTMLInputElement>("#data").value;
+        app.pokazMessage();
     })
 }
 lot.wybraneMiasto.metoda = function() {
     this.addEventListener('change', function() {
         lot.wybraneMiasto.nazwa = document.querySelector<HTMLSelectElement>("#miasto").options[document.querySelector<HTMLSelectElement>("#miasto").selectedIndex].innerHTML;
+        app.pokazMessage();
     })
 }
 lot.wybranyBagaz.metoda = function() {
     this.addEventListener('change', function() {
         lot.wybranyBagaz.nazwa = document.querySelector<HTMLInputElement>("#bagaz").checked.toString();
+        app.pokazMessage();
     })
 }
 
