@@ -14,12 +14,39 @@
           .buttons > * {
             margin: 15px;
           }
+          .tr:hover {
+            opacity: 0.5;
+          }
           h4 {
             margin: 0;
+          }
+          table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 90%;
+            margin: 15px;
+          }
+          td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          tr:nth-child(even) {
+            background-color: #dddddd;
           }
       </style>
     </head>
     <body>
+        <!-- element, którzy jest tworzony dynamicznie w tabeli -->
+        <template id='tableRow'>
+            <tr class='tr'>
+                <td>Alfreds Futterkiste</td>
+                <td>Maria Anders</td>
+                <td>Germany</td>
+                <td>Germany</td>
+            </tr>
+        </template>
+        
         <div class="formularz">
           <input type='text' id='imiona' value='Ja'>
           <input type='date' id='data' value=''>
@@ -38,6 +65,14 @@
           <button id='potwierdz'>Potwierdź lot</button>
           <button id='usunLot'>Usuń lot</button>
         </div>
+        <table>
+            <tr>
+              <th>Imiona</th>
+              <th>Data</th>
+              <th>Miasto</th>
+              <th>Bagaż</th>
+            </tr>
+        </table>
         <script src="out/helloweb.js"></script>
     </body>
 </html>

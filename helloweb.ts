@@ -41,6 +41,9 @@ class App implements LotStorage{
         lot.wybranaData.metoda.call(lot.wybranaData.wybranyEl);
         lot.wybraneMiasto.metoda.call(lot.wybraneMiasto.wybranyEl);
         lot.wybranyBagaz.metoda.call(lot.wybranyBagaz.wybranyEl);
+        document.querySelectorAll('.tr').forEach(el => {
+            el.addEventListener('click', this.pokazWNowymOknie)
+        })
     }
     
     // podłączenie działania przycisków
@@ -49,19 +52,43 @@ class App implements LotStorage{
         document.querySelector('#usunLot').addEventListener('click', this.usunLot);
     }
 
-    // po odświeżeniu strony, pobierane są loty
+    // wskazanie indeksu dziecka z listy w tabeli i przesłanie go do new-site.html
+    pokazWNowymOknie() { 
+        let parent = document.querySelector('.tr').parentNode;
+        let children = parent.children;
+        let wybraneChild = 0;
+        for (let i = children.length - 1; i > 0; i--){
+            if ((this as unknown as HTMLElement) == children[i]){
+                wybraneChild = i;
+                break;
+            }
+        }
+        window.location.href = 'new-site.html?id=' + wybraneChild;
+    }
+
+    // po odświeżeniu strony, pobierane są loty (dodane we wcześniejszej sesji) i wstawine do tabeli
     pokazZapisaneLoty() {
         let loty = localStorage.getItem('zapiszLoty');
         przechowalniaLotow = JSON.parse(loty);
         if(przechowalniaLotow != null) {
             let loty = localStorage.getItem('zapiszLoty');
             przechowalniaLotow = JSON.parse(loty);
+            for(let i = 0; i < przechowalniaLotow.length; i++) {
+                let template = document.querySelector<HTMLTemplateElement>('#tableRow');
+                let clone = template.content.cloneNode(true);
+                let td = (clone as HTMLElement).querySelectorAll("td");
+                td[0].textContent = przechowalniaLotow[i].wybraneImiona.nazwa;
+                td[1].textContent = przechowalniaLotow[i].wybranaData.nazwa;
+                td[2].textContent = przechowalniaLotow[i].wybraneMiasto.nazwa;
+                td[3].textContent = przechowalniaLotow[i].wybranyBagaz.nazwa;
+                document.querySelector('table').appendChild(clone);
+            }
         } else {
             przechowalniaLotow = [];
         }
     }
 
-    // reakcja na przycisk Potwierdź Lot, która dodaje lot i aktualizuje localStorage
+    // reakcja na przycisk Potwierdź Lot, która dodaje lot do tabeli i aktualizuje localStorage
     zapiszLot() {
         przechowalniaLotow.push({
             wybraneImiona: {nazwa: lot.wybraneImiona.nazwa},
@@ -69,13 +96,22 @@ class App implements LotStorage{
             wybraneMiasto: {nazwa: lot.wybraneMiasto.nazwa},
             wybranyBagaz: {nazwa: lot.wybranyBagaz.nazwa}
         });
+        let template = document.querySelector<HTMLTemplateElement>('#tableRow');
+        let clone = template.content.cloneNode(true);
+        let td = (clone as HTMLElement).querySelectorAll("td");
+        td[0].textContent = przechowalniaLotow[przechowalniaLotow.length-1].wybraneImiona.nazwa;
+        td[1].textContent = przechowalniaLotow[przechowalniaLotow.length-1].wybranaData.nazwa;
+        td[2].textContent = przechowalniaLotow[przechowalniaLotow.length-1].wybraneMiasto.nazwa;
+        td[3].textContent = przechowalniaLotow[przechowalniaLotow.length-1].wybranyBagaz.nazwa;
+        document.querySelector('table').appendChild(clone);
         let loty = JSON.stringify(przechowalniaLotow);
         localStorage.setItem('zapiszLoty', loty);
     }
 
-    // reakcja na przycisk Usuń Lot, która usuwa ostatni lot i aktualizuje localStorage
+    // reakcja na przycisk Usuń Lot, która usuwa ostatni lot z tabeli i aktualizuje localStorage
     usunLot() {
         przechowalniaLotow.pop();
+        document.querySelector(".tr:last-child").remove();
         let loty = JSON.stringify(przechowalniaLotow);
         localStorage.setItem('zapiszLoty', loty);
     }
