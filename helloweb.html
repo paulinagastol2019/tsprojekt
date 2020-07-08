@@ -2,42 +2,11 @@
 <html>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="style.css">
       <title>TypeScript Hello Web</title>
-      
-      <style>
-          .formularz > * {
-            display: inline-block;
-            margin: 15px;
-            height: 35px;
-            padding: 0 15px;
-          }
-          .buttons > * {
-            margin: 15px;
-          }
-          .tr:hover {
-            opacity: 0.5;
-          }
-          h4 {
-            margin: 0;
-          }
-          table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 90%;
-            margin: 15px;
-          }
-          td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-          }
-          tr:nth-child(even) {
-            background-color: #dddddd;
-          }
-      </style>
     </head>
     <body>
-        <!-- element, którzy jest tworzony dynamicznie w tabeli -->
+        <!-- element, który jest tworzony dynamicznie w tabeli -->
         <template id='tableRow'>
             <tr class='tr'>
                 <td>Alfreds Futterkiste</td>
@@ -55,16 +24,23 @@
               <option>Zakopane</option>
               <option>Warszawa</option>
           </select>
-          <div>
-            Bagaż
-            <input id='bagaz' type='checkbox'>
-          </div>
+
+            <!-- opcja do zaznaczania - check-->
+            <div>
+              Bagaż
+              <input id='bagaz' type='checkbox'>
+            </div>
+
         </div>
+
+        <!--przyciski-->
         <div class="buttons">
           <p id='pokaz'></p>
           <button id='potwierdz'>Potwierdź lot</button>
           <button id='usunLot'>Usuń lot</button>
         </div>
+
+        <!--tabela z rekordami -->
         <table>
             <tr>
               <th>Imiona</th>

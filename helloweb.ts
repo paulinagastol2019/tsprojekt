@@ -1,8 +1,8 @@
 // tsc -w
 // Live-server
 
-interface LotStorage {
-    zapiszLot();
+interface LotStorage {          //implentacja interfejsu lotStorage
+    zapiszLot(pokazWNowymOknie);
     usunLot();
 }
 
@@ -13,13 +13,13 @@ interface ZmienneFormularza {
 }
 
 class Lot {
-    wybraneImiona: ZmienneFormularza;
+    wybraneImiona: ZmienneFormularza; // klasa - szablon zawierajacy charakterystykę obiektu tworzonego
     wybranaData: ZmienneFormularza;
     wybraneMiasto: ZmienneFormularza;
     wybranyBagaz: ZmienneFormularza;
 }
 
-class App implements LotStorage{
+class App implements LotStorage{  // konstruktor klasy app
     constructor() {
         this.pokazMessage();
         this.podlaczPrzyciski();
@@ -29,26 +29,28 @@ class App implements LotStorage{
     // tekst pod formularzem (przy zmianie wybranego inputu bądź selecta)
     pokazMessage(){
         let message: string =  `<h4>Rezerwacja lotu</h4> dla osoby ${lot.wybraneImiona.nazwa} <br> dnia ${lot.wybranaData.nazwa} <br> do miasta ${lot.wybraneMiasto.nazwa}`;
-        if(lot.wybranyBagaz.nazwa === "true") {
+        if(lot.wybranyBagaz.nazwa === "true") {  //wstrzykuje w wiadomosc pod inputem i selektem wybrane dane 
             message += '<br> z bagażem';
         }
-        document.querySelector('#pokaz').innerHTML = message;
+        document.querySelector('#pokaz').innerHTML = message; // zwraca pierwszy element wewnatrz dokumentu
     };
 
     // dodanie addEventListenera do poszczególnych elementów
     zaladujZmiany(){
-        lot.wybraneImiona.metoda.call(lot.wybraneImiona.wybranyEl);
+        lot.wybraneImiona.metoda.call(lot.wybraneImiona.wybranyEl); 
         lot.wybranaData.metoda.call(lot.wybranaData.wybranyEl);
         lot.wybraneMiasto.metoda.call(lot.wybraneMiasto.wybranyEl);
         lot.wybranyBagaz.metoda.call(lot.wybranyBagaz.wybranyEl);
-        document.querySelectorAll('.tr').forEach(el => {
-            el.addEventListener('click', this.pokazWNowymOknie)
+        document.querySelectorAll('.tr').forEach(el => {                // dodaje kolejny element w tabeli 
+            el.addEventListener('click', this.pokazWNowymOknie); // nasluchuje i po kliknieciu przenosi do nowego okna
         })
     }
     
     // podłączenie działania przycisków
     podlaczPrzyciski() {
-        document.querySelector('#potwierdz').addEventListener('click', this.zapiszLot);
+        document.querySelector('#potwierdz').addEventListener('click', () => {
+			this.zapiszLot(this.pokazWNowymOknie);                                      //reakcja na klikniecie mysza
+		});
         document.querySelector('#usunLot').addEventListener('click', this.usunLot);
     }
 
@@ -89,7 +91,7 @@ class App implements LotStorage{
     }
 
     // reakcja na przycisk Potwierdź Lot, która dodaje lot do tabeli i aktualizuje localStorage
-    zapiszLot() {
+    zapiszLot(pokazWNowymOknie) {
         przechowalniaLotow.push({
             wybraneImiona: {nazwa: lot.wybraneImiona.nazwa},
             wybranaData: {nazwa: lot.wybranaData.nazwa},
@@ -104,6 +106,7 @@ class App implements LotStorage{
         td[2].textContent = przechowalniaLotow[przechowalniaLotow.length-1].wybraneMiasto.nazwa;
         td[3].textContent = przechowalniaLotow[przechowalniaLotow.length-1].wybranyBagaz.nazwa;
         document.querySelector('table').appendChild(clone);
+		document.querySelector('table').lastElementChild.addEventListener('click', pokazWNowymOknie);
         let loty = JSON.stringify(przechowalniaLotow);
         localStorage.setItem('zapiszLoty', loty);
     }

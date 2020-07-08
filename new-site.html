@@ -2,41 +2,27 @@
 <html>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="style.css">
       <title>TypeScript Hello Web</title>
-      
-      <style>
-          .formularz > * {
-            display: inline-block;
-            margin: 15px;
-            height: 35px;
-            padding: 0 15px;
-          }
-          .buttons > * {
-            margin: 15px;
-          }
-          .tr:hover {
-            opacity: 0.5;
-          }
-          h4 {
-            margin: 0;
-          }
-          table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 90%;
-            margin: 15px;
-          }
-          td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-          }
-          tr:nth-child(even) {
-            background-color: #dddddd;
-          }
-      </style>
     </head>
     <body>
-        new-site.html
+        <div class="formularz">
+          <input type='text' id='imiona'>
+          <input type='date' id='data'>
+          <select id='miasto'>
+              <option>Kraków</option>
+              <option>Zakopane</option>
+              <option>Warszawa</option>
+          </select>
+          <div>
+            Bagaż
+            <input id='bagaz' type='checkbox'>
+          </div>
+        </div>
+        <div class="buttons">
+          <button id='potwierdz'>Potwierdź lot</button>
+          <button id='wstecz'>Wstecz</button>
+        </div>
+        <script src="out/new-site.js"></script>
     </body>
 </html>

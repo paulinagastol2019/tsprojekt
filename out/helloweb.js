@@ -14,10 +14,10 @@ var App = /** @class */ (function () {
     // tekst pod formularzem (przy zmianie wybranego inputu bądź selecta)
     App.prototype.pokazMessage = function () {
         var message = "<h4>Rezerwacja lotu</h4> dla osoby " + lot.wybraneImiona.nazwa + " <br> dnia " + lot.wybranaData.nazwa + " <br> do miasta " + lot.wybraneMiasto.nazwa;
-        if (lot.wybranyBagaz.nazwa === "true") {
+        if (lot.wybranyBagaz.nazwa === "true") { //wstrzykuje w wiadomosc pod inputem i selektem wybrane dane 
             message += '<br> z bagażem';
         }
-        document.querySelector('#pokaz').innerHTML = message;
+        document.querySelector('#pokaz').innerHTML = message; // zwraca pierwszy element wewnatrz dokumentu
     };
     ;
     // dodanie addEventListenera do poszczególnych elementów
@@ -28,12 +28,15 @@ var App = /** @class */ (function () {
         lot.wybraneMiasto.metoda.call(lot.wybraneMiasto.wybranyEl);
         lot.wybranyBagaz.metoda.call(lot.wybranyBagaz.wybranyEl);
         document.querySelectorAll('.tr').forEach(function (el) {
-            el.addEventListener('click', _this.pokazWNowymOknie);
+            el.addEventListener('click', _this.pokazWNowymOknie); // nasluchuje i po kliknieciu przenosi do nowego okna
         });
     };
     // podłączenie działania przycisków
     App.prototype.podlaczPrzyciski = function () {
-        document.querySelector('#potwierdz').addEventListener('click', this.zapiszLot);
+        var _this = this;
+        document.querySelector('#potwierdz').addEventListener('click', function () {
+            _this.zapiszLot(_this.pokazWNowymOknie); //reakcja na klikniecie mysza
+        });
         document.querySelector('#usunLot').addEventListener('click', this.usunLot);
     };
     // wskazanie indeksu dziecka z listy w tabeli i przesłanie go do new-site.html
@@ -72,7 +75,7 @@ var App = /** @class */ (function () {
         }
     };
     // reakcja na przycisk Potwierdź Lot, która dodaje lot do tabeli i aktualizuje localStorage
-    App.prototype.zapiszLot = function () {
+    App.prototype.zapiszLot = function (pokazWNowymOknie) {
         przechowalniaLotow.push({
             wybraneImiona: { nazwa: lot.wybraneImiona.nazwa },
             wybranaData: { nazwa: lot.wybranaData.nazwa },
@@ -87,6 +90,7 @@ var App = /** @class */ (function () {
         td[2].textContent = przechowalniaLotow[przechowalniaLotow.length - 1].wybraneMiasto.nazwa;
         td[3].textContent = przechowalniaLotow[przechowalniaLotow.length - 1].wybranyBagaz.nazwa;
         document.querySelector('table').appendChild(clone);
+        document.querySelector('table').lastElementChild.addEventListener('click', pokazWNowymOknie);
         var loty = JSON.stringify(przechowalniaLotow);
         localStorage.setItem('zapiszLoty', loty);
     };

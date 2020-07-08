@@ -1,0 +1,29 @@
+.formularz > * {
+  display: inline-block; /*wyświetlanie elementu w linii*/
+  margin: 15px;
+  height: 35px;
+  padding: 0 15px;
+}
+.buttons > * {
+  margin: 15px;
+}
+.tr:hover {
+  opacity: 0.5; /*przezroczystość elementu*/
+}
+h4 {
+  margin: 0;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse; /* własność do tworzenia połączonych obramowań, sąsiadujące komórki tabel współdzielą obramowania*/
+  width: 90%;
+  margin: 15px;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
