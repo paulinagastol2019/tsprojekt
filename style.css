@@ -1,5 +1,5 @@
 .formularz > * {
-  display: inline-block; /*wyświetlanie elementu w linii*/
+  display: inline-block;
   margin: 15px;
   height: 35px;
   padding: 0 15px;
@@ -8,7 +8,7 @@
   margin: 15px;
 }
 .tr:hover {
-  opacity: 0.5; /*przezroczystość elementu*/
+  opacity: 0.5; 
 }
 h4 {
   margin: 0;
