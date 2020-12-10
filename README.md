@@ -1,1 +1,1 @@
-# tsprojekt
+Projekt na zaliczenie przedmiotu 
